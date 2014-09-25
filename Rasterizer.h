@@ -8,8 +8,22 @@
 
 #ifndef _RASTERIZER_H
 #define _RASTERIZER_H
-
+#include <vector>
 class simpleCanvas;
+
+typedef struct allEdge
+{
+	//
+	//FOR DEBUG ONLY  REMOVE WHEN FINISHED
+	//
+	int x0, y0,x1,y1;
+
+
+	int MinY;
+	int MaxY;
+	int X_OfMinY;
+	double EdgeSlope;
+} AllEdge;
 
 /**
  *
@@ -44,6 +58,18 @@ private:
      * number of scanlines
      */
     int n_scanlines;
+
+	/**
+	*Build the edge table 
+	*/
+	void BuildEdgeTable(std::vector<AllEdge>& EmptyEdge, int n, int x[], int y[]);
+
+	//Helpers//
+	int Max(int one, int two);
+	int Min(int one, int two);
+	double slope(int y0, int y1, int x0, int x1);
+
+
 };
 
 
