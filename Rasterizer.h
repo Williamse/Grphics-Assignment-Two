@@ -21,8 +21,13 @@ typedef struct allEdge
 
 	int MinY;
 	int MaxY;
-	int X_OfMinY;
+	double X_OfMinY;
 	double EdgeSlope;
+	double RealSlope;
+	bool operator < (const allEdge& str) const
+	{
+		return (X_OfMinY < str.X_OfMinY);
+	}
 } AllEdge;
 
 /**
@@ -59,6 +64,10 @@ private:
      */
     int n_scanlines;
 
+	//Builds the Global Edge table
+	std::vector<AllEdge> Rasterizer::BuildGlobalEdge(std::vector<AllEdge> all_edge);
+
+	std::vector<AllEdge>* Rasterizer::BuildActiveEdge(std::vector<AllEdge>& GlobalEdge,int scanline);
 	/**
 	*Build the edge table 
 	*/
@@ -67,6 +76,7 @@ private:
 	//Helpers//
 	int Max(int one, int two);
 	int Min(int one, int two);
+	double one_over_slope(int y0, int y1, int x0, int x1);
 	double slope(int y0, int y1, int x0, int x1);
 
 
