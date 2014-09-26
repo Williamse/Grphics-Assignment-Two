@@ -9,25 +9,34 @@
 #ifndef _RASTERIZER_H
 #define _RASTERIZER_H
 #include <vector>
+#include <math.h>
 class simpleCanvas;
 
+//A class that holds information about an edge
 typedef struct allEdge
 {
-	//
-	//FOR DEBUG ONLY  REMOVE WHEN FINISHED
-	//
+	//X and Y values for the edge
 	int x0, y0,x1,y1;
 
-
+	//Minimum y and X values
 	int MinY;
 	int MaxY;
+
+	//x value at the minimum Y value
 	double X_OfMinY;
+
+	//Represents 1 / slope
 	double EdgeSlope;
+
+	//Slope of the value
 	double RealSlope;
+
+	//Overides the < operator (used when we sort the table after updating the x value)
 	bool operator < (const allEdge& str) const
 	{
 		return (X_OfMinY < str.X_OfMinY);
 	}
+
 } AllEdge;
 
 /**
@@ -64,22 +73,28 @@ private:
      */
     int n_scanlines;
 
-	//Builds the Global Edge table
+	//Builds the Global Edge Table
 	std::vector<AllEdge> Rasterizer::BuildGlobalEdge(std::vector<AllEdge> all_edge);
 
-	std::vector<AllEdge>* Rasterizer::BuildActiveEdge(std::vector<AllEdge>& GlobalEdge,int scanline);
+	//Builds the Active Edge Table
+	void Rasterizer::BuildActiveEdge(std::vector<AllEdge>& active, std::vector<AllEdge>& GlobalEdge, int scanline);
+
 	/**
 	*Build the edge table 
 	*/
 	void BuildEdgeTable(std::vector<AllEdge>& EmptyEdge, int n, int x[], int y[]);
 
-	//Helpers//
+	//Maximum of two ints
 	int Max(int one, int two);
+	
+	//Minium of two ints
 	int Min(int one, int two);
+
+	//One over slope of a line
 	double one_over_slope(int y0, int y1, int x0, int x1);
+
+	//Slope of aline
 	double slope(int y0, int y1, int x0, int x1);
-
-
 };
 
 
